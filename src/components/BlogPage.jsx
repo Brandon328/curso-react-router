@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import { blogPosts } from '../assets/blogdata'
 
 function BlogPage() {
@@ -18,6 +18,7 @@ function BlogPage() {
           )
         }
       </ul>
+      <Outlet />
     </>
   )
 }

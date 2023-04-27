@@ -126,6 +126,8 @@ function BlogPostPage() {
 
 ## useNavigate
 
+Es un hook que nos permite navegar entre las rutas anteriormente visitadas.
+
 ```javascript
 import { useNavigate } from "react-router-dom"
 

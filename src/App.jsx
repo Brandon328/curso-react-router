@@ -11,8 +11,9 @@ function App() {
       <Menu />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/blog/:slug" element={<BlogPostPage />} />
+        <Route path="/blog" element={<BlogPage />}>
+          <Route path=":slug" element={<BlogPostPage />} />
+        </Route>
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="*" element={<p>Not Found</p>} />
       </Routes>
