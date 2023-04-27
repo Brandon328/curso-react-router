@@ -9,6 +9,7 @@
   - [HashRouter](#hashrouter)
     - [Implementación](#implementación)
   - [useParams](#useparams)
+  - [useNavigate](#usenavigate)
   - [BrowserRouter](#browserrouter)
 
 ## HashRouter
@@ -122,6 +123,28 @@ function BlogPostPage() {
 }
 
 ```
+
+## useNavigate
+
+```javascript
+import { useNavigate } from "react-router-dom"
+
+function BlogPostPage() {
+  const navigate = useNavigate();
+
+  const returnToBlog = () => {
+    navigate('/blog');
+  }
+  return (
+    <button
+      onClick={returnToBlog}
+    >
+      Volver
+    </button>
+  )
+}
+```
+
 
 ## BrowserRouter
 
