@@ -38,6 +38,14 @@ const routes = [
     to: '/profile',
     text: 'profile'
   },
+  {
+    to: '/login',
+    text: 'login'
+  },
+  {
+    to: '/logout',
+    text: 'logout'
+  },
 ]
 
 export { Menu }
