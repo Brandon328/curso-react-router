@@ -7,6 +7,7 @@ import { BlogPostPage } from './components/BlogPostPage'
 import { LoginPage } from './components/LoginPage'
 import { LogoutPage } from './components/LogoutPage'
 import { AuthProvider } from './components/auth'
+import { AuthRoute } from './components/auth'
 
 function App() {
   return (
@@ -18,9 +19,21 @@ function App() {
           <Route path="/blog" element={<BlogPage />}>
             <Route path=":slug" element={<BlogPostPage />} />
           </Route>
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route
+            path="/profile"
+            element={
+              <AuthRoute>
+                <ProfilePage />
+              </AuthRoute>
+            } />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/logout" element={<LogoutPage />} />
+          <Route
+            path="/logout"
+            element={
+              <AuthRoute>
+                <LogoutPage />
+              </AuthRoute>
+            } />
           <Route path="*" element={<p>Not Found</p>} />
         </Routes>
       </AuthProvider>

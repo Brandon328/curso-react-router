@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const AuthContext = React.createContext();
 
@@ -34,4 +34,20 @@ function useAuth() {
   return auth;
 }
 
-export { useAuth, AuthProvider }
+AuthRoute.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+function AuthRoute(props) {
+  const auth = useAuth();
+  if (!auth.user)
+    return <Navigate to="/login" />
+
+  return (
+    <>
+      {props.children}
+    </>
+  )
+}
+
+export { useAuth, AuthProvider, AuthRoute }
