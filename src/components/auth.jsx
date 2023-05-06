@@ -2,6 +2,21 @@ import React from "react";
 import PropTypes from 'prop-types';
 import { Navigate, useNavigate } from "react-router-dom";
 
+const adminList = [
+  {
+    username: 'imir',
+    roles: ['admin',]
+  },
+  {
+    username: 'historia',
+    roles: ['admin', 'editor']
+  },
+  {
+    username: 'brandonjj',
+    roles: ['admin', 'editor', 'teacher']
+  }
+];
+
 const AuthContext = React.createContext();
 
 AuthProvider.propTypes = {
@@ -13,12 +28,13 @@ function AuthProvider({ children }) {
   const navigate = useNavigate();
 
   const login = username => {
-    setUser({ username });
+    const admin = adminList.find(admin => admin.username === username);
+    setUser({ username, roles: admin?.roles || ['student'] });
     navigate('/profile');
   }
   const logout = () => {
     setUser(null);
-    navigate('/')
+    navigate('/login')
   }
   const auth = { user, login, logout };
 
