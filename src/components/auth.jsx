@@ -5,15 +5,15 @@ import { Navigate, useNavigate } from "react-router-dom";
 const adminList = [
   {
     username: 'imir',
-    roles: ['admin',]
+    permissions: ['delete',]
   },
   {
     username: 'historia',
-    roles: ['admin', 'editor']
+    permissions: ['delete', 'edit']
   },
   {
     username: 'brandonjj',
-    roles: ['admin', 'editor', 'teacher']
+    permissions: ['delete', 'edit', 'comment']
   }
 ];
 
@@ -29,7 +29,7 @@ function AuthProvider({ children }) {
 
   const login = username => {
     const admin = adminList.find(admin => admin.username === username);
-    setUser({ username, roles: admin?.roles || ['student'] });
+    setUser({ username, permissions: admin?.permissions || ['comment'] });
     navigate('/profile');
   }
   const logout = () => {
