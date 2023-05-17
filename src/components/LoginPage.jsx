@@ -4,11 +4,12 @@ import { Navigate } from "react-router-dom";
 
 function LoginPage() {
   const [username, setUsername] = React.useState('')
+  const [password, setPassword] = React.useState('')
   const auth = useAuth();
 
   const login = e => {
     e.preventDefault();
-    auth.login(username);
+    auth.login(username, password);
   }
 
   if (auth.user) {
@@ -19,11 +20,26 @@ function LoginPage() {
     <>
       <h1>Login Page</h1>
       <form onSubmit={login}>
+        {
+          (auth.error) && (
+            <>
+              <span>{auth.error}</span>
+              <br /><br />
+            </>
+          )
+        }
         <input
           type="text"
           value={username}
+          placeholder="username"
           onChange={e => setUsername(e.target.value)}
-        />
+        /> <br /><br />
+        <input
+          type="password"
+          value={password}
+          placeholder="password"
+          onChange={e => setPassword(e.target.value)}
+        /> <br /><br />
         <button type="submit">Entrar</button>
       </form>
     </>

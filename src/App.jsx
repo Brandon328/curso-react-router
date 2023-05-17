@@ -8,6 +8,7 @@ import { LoginPage } from './components/LoginPage'
 import { LogoutPage } from './components/LogoutPage'
 import { AuthProvider } from './components/auth'
 import { AuthRoute } from './components/auth'
+import { RegisterPage } from './components/RegisterPage'
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               </AuthRoute>
             } />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route
             path="/logout"
             element={

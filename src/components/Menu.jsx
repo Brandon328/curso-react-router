@@ -11,18 +11,20 @@ function Menu() {
           routes.map((route, index) => {
             if (route.private && !auth.user) return null;
             if (route.text === 'login' && auth.user) return null;
-            return (<li
-              key={index}
-            >
-              <NavLink
-                style={({ isActive }) => ({
-                  color: isActive ? 'red' : 'blue'
-                })}
-                to={route.to}
-              >
-                {route.text}
-              </NavLink>
-            </li>)
+            if (route.text === 'register' && auth.user) return null;
+
+            return (
+              <li key={index}>
+                <NavLink
+                  style={({ isActive }) => ({
+                    color: isActive ? 'red' : 'rgb(161, 161, 253) '
+                  })}
+                  to={route.to}
+                >
+                  {route.text}
+                </NavLink>
+              </li>
+            )
           })
         }
       </ul>
@@ -56,6 +58,11 @@ const routes = [
     text: 'logout',
     private: true
   },
+  {
+    to: '/register',
+    text: 'register',
+    private: false
+  }
 ]
 
 export { Menu }
