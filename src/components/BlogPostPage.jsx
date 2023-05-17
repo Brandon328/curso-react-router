@@ -1,41 +1,50 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { blogPosts } from "../assets/blogdata";
+// import { blogPosts } from "../assets/blogdata";
 import { useAuth } from "./auth";
+import { useApi } from "./useApi";
 
 function BlogPostPage() {
   const { slug } = useParams();
+  const { posts } = useApi();
+
   const navigate = useNavigate();
-  const post = blogPosts.find(post => post.slug === slug)
+  const post = posts.find(post => post.slug === slug)
   const auth = useAuth();
   const returnToBlog = () => {
     navigate('/blog');
   }
   return (
     <>
-      <h1>{post.title}</h1>
-      <i>{post.author}</i>
-      <p>{post.content}</p>
       {
-        (auth.user && auth.user?.username !== post.author)
-        && (<button>Like post</button>)
+        post ? (
+          <>
+            <h1>{post.title}</h1>
+            <i>{post.username}</i>
+            <p>{post.content}</p>
+            {
+              (auth.user?.permissions.includes('delete') || auth.user?.username === post.author)
+              && (<button>Delete post</button>)
+            }
+            {
+              (auth.user?.permissions.includes('edit') || auth.user?.username === post.author)
+              && (<button>Edit post</button>)
+            }
+            {
+              auth.user?.permissions.includes('comment')
+              && (<button>Comment post</button>)
+            }
+          </>
+        ) : (
+          <span>loading...</span>
+        )
       }
-      {
-        (auth.user?.permissions.includes('delete') || auth.user?.username === post.author)
-        && (<button>Delete post</button>)
-      }
-      {
-        (auth.user?.permissions.includes('edit') || auth.user?.username === post.author)
-        && (<button>Edit post</button>)
-      }
-      {
-        auth.user?.permissions.includes('comment')
-        && (<button>Comment post</button>)
-      }
+
       <button
         onClick={returnToBlog}
       >
         Volver
       </button>
+
     </>
   )
 }

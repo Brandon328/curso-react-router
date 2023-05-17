@@ -6,6 +6,7 @@ function ProfilePage() {
     <>
       <h1>ProfilePage</h1>
       <p>Welcome {auth.user?.username}</p>
+      <button>Create a blog</button>
     </>
   )
 }

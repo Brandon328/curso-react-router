@@ -1,20 +1,26 @@
 import { Link, Outlet } from 'react-router-dom'
-import { blogPosts } from '../assets/blogdata'
+import { useApi } from './useApi'
 
 function BlogPage() {
+  const { posts } = useApi();
+
   return (
     <>
       <h1>BlogPage</h1>
       <ul>
         {
-          blogPosts.map((post, index) =>
-            <li key={index}>
-              <Link
-                to={`/blog/${post.slug}`}
-              >
-                {post.title}
-              </Link>
-            </li>
+          posts.length > 0 ? (
+            posts.map(post =>
+              <li key={post.postId}>
+                <Link
+                  to={`/blog/${post.slug}`}
+                >
+                  {post.title}
+                </Link>
+              </li>
+            )
+          ) : (
+            <span>loading...</span>
           )
         }
       </ul>
