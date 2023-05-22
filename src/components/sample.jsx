@@ -1,30 +1,28 @@
-import React from 'react'
 import { useNavigate, useParams } from "react-router-dom"
 import { useAuth } from "./auth";
 import { useApi } from "./useApi";
 import { LikePostButton } from "./LIkePostButton";
 import { CommentPostButton } from "./CommentPostButton";
+// import React from "react";
 
-function BlogPostPage() {
+async function BlogPostPage() {
   const { slug } = useParams();
   const { posts } = useApi();
-  const [commentsList, setCommentsList] = React.useState({});
   const auth = useAuth();
-  const navigate = useNavigate();
   const post = posts.find(post => post.slug === slug);
+  // const [commentsList, setCommentsList] = React.useState({});
+  const navigate = useNavigate();
+
+  // React.useEffect(() => {
+  //   fetch(`http://localhost:9000/api/get-comments/${post.postId}`)
+  //     .then(response => response.json())
+  //     .then(data => setCommentsList(data));
+  //   console.log(commentsList)
+  // }, [])
 
   const returnToBlog = () => {
     navigate('/blog');
   }
-
-  React.useEffect(() => {
-    if (post) {
-      fetch(`http://localhost:9000/api/get-comments/${post.postId}`)
-        .then(response => response.json())
-        .then(data => setCommentsList(data));
-    }
-    console.log(commentsList)
-  }, [post])
 
   return (
     <>
@@ -34,17 +32,19 @@ function BlogPostPage() {
             <h1>{post.title}</h1>
             <i>{post.username}</i>
             <p>{post.content}</p>
-            <button
-              onClick={returnToBlog}
-            >
-              Volver
-            </button>
+            <p>
+              <button
+                onClick={returnToBlog}
+              >
+                Volver
+              </button>
+            </p>
             {
               post?.username === auth.user?.username && (
-                <>
+                <div>
                   <button>Delete post</button>
                   <button>Edit post</button>
-                </>
+                </div>
               )
             }
             {
@@ -55,38 +55,30 @@ function BlogPostPage() {
                 </>
               )
             }
-            {
+            {/* {
               commentsList.length > 0 ? (
                 commentsList.map((comment, key) =>
                   <div key={key}>
-                    <hr />
+                    <br />
                     <p>
                       <i>@{comment.username}</i>
-                      <span>
-                        {
-                          (() => {
-                            const date = new Date(comment.date);
-                            return ` - ${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
-                          })()
-                        }
-                      </span>
                     </p>
                     <p>
                       {comment.content}
                     </p>
+                    <sub>{comment.date}</sub>
+                    <br />
                   </div>
                 )
               ) : (
                 <p>There are no comments yet</p>
               )
-            }
+            } */}
           </>
         ) : (
           <span>loading...</span>
         )
       }
-
-
 
     </>
   )

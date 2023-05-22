@@ -25,4 +25,4 @@ async function fetchData(API_URL) {
 }
 
 
-export { useApi }
+export { useApi, fetchData }
