@@ -9,6 +9,7 @@ function BlogPostPage() {
   const { slug } = useParams();
   const { posts } = useApi();
   const [commentsList, setCommentsList] = React.useState({});
+  const [refreshComments, setRefreshComments] = React.useState(false);
   const auth = useAuth();
   const navigate = useNavigate();
   const post = posts.find(post => post.slug === slug);
@@ -23,8 +24,7 @@ function BlogPostPage() {
         .then(response => response.json())
         .then(data => setCommentsList(data));
     }
-    console.log(commentsList)
-  }, [post])
+  }, [post, refreshComments])
 
   return (
     <>
@@ -51,7 +51,11 @@ function BlogPostPage() {
               auth.user && (
                 <>
                   <LikePostButton postId={post.postId} />
-                  <CommentPostButton postId={post.postId} />
+                  <CommentPostButton
+                    postId={post.postId}
+                    setRefreshComments={setRefreshComments}
+                    refreshComments={refreshComments}
+                  />
                 </>
               )
             }

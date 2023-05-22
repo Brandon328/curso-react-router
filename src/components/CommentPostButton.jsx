@@ -4,8 +4,10 @@ import { useAuth } from './auth';
 
 CommentPostButton.propTypes = {
   postId: PropTypes.node.isRequired,
+  setRefreshComments: PropTypes.func.isRequired,
+  refreshComments: PropTypes.bool.isRequired,
 };
-function CommentPostButton({ postId }) {
+function CommentPostButton({ postId, setRefreshComments, refreshComments }) {
   const [commentBox, setCommentBox] = React.useState(false);
   const [comment, setComment] = React.useState('');
   const [error, setError] = React.useState(null);
@@ -29,6 +31,7 @@ function CommentPostButton({ postId }) {
     if (response.status === 200) {
       setError(null);
       setComment('');
+      setRefreshComments(!refreshComments);
       setCommentBox(false);
     }
     else {
