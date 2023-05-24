@@ -1,5 +1,4 @@
 import React from "react";
-import { Navigate } from "react-router";
 import { useAuth } from "./auth";
 
 function RegisterPage() {
@@ -8,10 +7,6 @@ function RegisterPage() {
   const [password, setPassword] = React.useState('');
   const [firstname, setFirstname] = React.useState('');
   const [lastname, setLastname] = React.useState('');
-
-  if (auth.user && auth.user !== 404) {
-    return <Navigate to="/profile" />
-  }
 
   const register = async (e) => {
     e.preventDefault();

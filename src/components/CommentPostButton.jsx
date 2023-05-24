@@ -13,7 +13,8 @@ function CommentPostButton({ postId, setRefreshComments, refreshComments }) {
   const [error, setError] = React.useState(null);
   const auth = useAuth();
 
-  const sendComment = async () => {
+  const sendComment = async e => {
+    e.preventDefault();
     const content = {
       userId: auth.user.userId,
       postId,
@@ -46,7 +47,7 @@ function CommentPostButton({ postId, setRefreshComments, refreshComments }) {
           <p>{error}</p>
         ) : (
           commentBox ? (
-            <div>
+            <form onSubmit={sendComment}>
               <br />
               <label>
                 <textarea
@@ -59,7 +60,7 @@ function CommentPostButton({ postId, setRefreshComments, refreshComments }) {
               </label>
               <div>
                 <button
-                  onClick={sendComment}
+                  type='submit'
                 >
                   Comment
                 </button>
@@ -70,7 +71,7 @@ function CommentPostButton({ postId, setRefreshComments, refreshComments }) {
                 </button>
               </div>
               <br />
-            </div>
+            </form>
           ) : (
             <button
               onClick={() => setCommentBox(true)}

@@ -102,4 +102,19 @@ function AuthRoute(props) {
   )
 }
 
-export { useAuth, AuthProvider, AuthRoute }
+NoAuthRoute.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+function NoAuthRoute(props) {
+  const auth = useAuth();
+  if (auth.user)
+    return <Navigate to="/profile" />
+
+  return (
+    <>
+      {props.children}
+    </>
+  )
+}
+
+export { useAuth, AuthProvider, AuthRoute, NoAuthRoute }

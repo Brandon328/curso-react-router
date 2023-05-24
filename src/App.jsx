@@ -7,8 +7,9 @@ import { BlogPostPage } from './components/BlogPostPage'
 import { LoginPage } from './components/LoginPage'
 import { LogoutPage } from './components/LogoutPage'
 import { AuthProvider } from './components/auth'
-import { AuthRoute } from './components/auth'
+import { AuthRoute, NoAuthRoute } from './components/auth'
 import { RegisterPage } from './components/RegisterPage'
+import { CreatePostPage } from './components/CreatePostPage'
 
 function App() {
   return (
@@ -26,9 +27,28 @@ function App() {
               <AuthRoute>
                 <ProfilePage />
               </AuthRoute>
+            }>
+            <Route
+              path="create-post"
+              element={
+                <AuthRoute>
+                  <CreatePostPage />
+                </AuthRoute>
+              } />
+          </Route>
+          <Route path="/login"
+            element={
+              <NoAuthRoute>
+                <LoginPage />
+              </NoAuthRoute>
             } />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route
+            path="/register"
+            element={
+              <NoAuthRoute>
+                <RegisterPage />
+              </NoAuthRoute>
+            } />
           <Route
             path="/logout"
             element={
