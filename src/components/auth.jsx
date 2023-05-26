@@ -2,20 +2,6 @@ import React from "react";
 import PropTypes from 'prop-types';
 import { Navigate, useNavigate } from "react-router-dom";
 
-// const adminList = [
-//   {
-//     username: 'imir',
-//     permissions: ['delete',]
-//   },
-//   {
-//     username: 'historia',
-//     permissions: ['delete', 'edit']
-//   },
-//   {
-//     username: 'brandonjj',
-//     permissions: ['delete', 'edit', 'comment']
-//   }
-// ];
 
 const AuthContext = React.createContext();
 

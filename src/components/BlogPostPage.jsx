@@ -1,21 +1,46 @@
 import React from 'react'
+import { createPortal } from 'react-dom';
 import { useNavigate, useParams } from "react-router-dom"
 import { useAuth } from "./auth";
 import { useApi } from "./useApi";
 import { LikePostButton } from "./LIkePostButton";
 import { CommentPostButton } from "./CommentPostButton";
+import { ModalContent } from "./ModalContent";
+import { BlogPageContext } from './BlogPage';
 
 function BlogPostPage() {
   const { slug } = useParams();
   const { posts } = useApi();
+  const { setUpdated } = React.useContext(BlogPageContext);
+
+  const [error, setError] = React.useState(null);
   const [commentsList, setCommentsList] = React.useState({});
   const [refreshComments, setRefreshComments] = React.useState(false);
+  const [showModal, setShowModal] = React.useState(false);
+
   const auth = useAuth();
   const navigate = useNavigate();
   const post = posts.find(post => post.slug === slug);
 
   const returnToBlog = () => {
     navigate('/blog');
+  }
+
+  const deletePost = async (postId) => {
+    const options = {
+      method: 'DELETE'
+    }
+
+    const response = await fetch(`http://localhost:9000/api/delete-post/${postId}`, options);
+    if (response.status === 200) {
+      setError(null);
+      setUpdated(true);
+      navigate('/blog');
+    }
+    else {
+      setError('Ocurrio un error con la API');
+      throw new Error(error);
+    }
   }
 
   React.useEffect(() => {
@@ -28,6 +53,15 @@ function BlogPostPage() {
 
   return (
     <>
+      {
+        showModal && createPortal(
+          <ModalContent
+            onClose={() => setShowModal(false)}
+            onYes={() => deletePost(post.postId)}
+          />,
+          document.body
+        )
+      }
       {
         post ? (
           <>
@@ -42,7 +76,9 @@ function BlogPostPage() {
             {
               post?.username === auth.user?.username && (
                 <>
-                  <button>Delete post</button>
+                  <button
+                    onClick={() => setShowModal(true)}
+                  >Delete post</button>
                   <button>Edit post</button>
                 </>
               )
@@ -70,7 +106,7 @@ function BlogPostPage() {
                         {
                           (() => {
                             const date = new Date(comment.date);
-                            return ` - ${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
+                            return ` - ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
                           })()
                         }
                       </span>
@@ -89,9 +125,6 @@ function BlogPostPage() {
           <span>loading...</span>
         )
       }
-
-
-
     </>
   )
 }

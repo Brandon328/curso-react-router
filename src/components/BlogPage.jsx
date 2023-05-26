@@ -1,11 +1,26 @@
+import { useEffect, useState, createContext } from 'react';
 import { Link, Outlet } from 'react-router-dom'
-import { useApi } from './useApi'
+
+const BlogPageContext = createContext();
 
 function BlogPage() {
-  const { posts } = useApi();
+  const [posts, setPosts] = useState([]);
+  const [updated, setUpdated] = useState(true);
+
+  useEffect(() => {
+    if (updated) {
+      fetch('http://localhost:9000/api/get-posts')
+        .then(response => response.json())
+        .then(data => setPosts(data))
+        .catch(error => console.log(error))
+        .finally(() => setUpdated(false));
+    }
+  }, [updated]);
 
   return (
-    <>
+    <BlogPageContext.Provider value={{
+      updated, setUpdated
+    }}>
       <h1>BlogPage</h1>
       <ul>
         {
@@ -25,8 +40,8 @@ function BlogPage() {
         }
       </ul>
       <Outlet />
-    </>
+    </BlogPageContext.Provider>
   )
 }
 
-export { BlogPage }
+export { BlogPage, BlogPageContext }

@@ -14,7 +14,8 @@ function useApi() {
   }, []);
 
   return {
-    posts
+    posts,
+    getPosts
   }
 }
 
