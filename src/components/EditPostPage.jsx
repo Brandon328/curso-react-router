@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { useAuth } from "./auth";
 import { useParams, useNavigate } from "react-router-dom";
 import { ModalContent } from './ModalContent';
-import { slugify } from './useApi';
+import { slugify } from './utils/useApi';
 
 function EditPostPage() {
   const auth = useAuth();

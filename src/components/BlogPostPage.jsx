@@ -2,7 +2,7 @@ import React from 'react'
 import { createPortal } from 'react-dom';
 import { useNavigate, useParams } from "react-router-dom"
 import { useAuth } from "./auth";
-import { useApi } from "./useApi";
+import { useApi } from "./utils/useApi";
 import { LikePostButton } from "./LIkePostButton";
 import { CommentPostButton } from "./CommentPostButton";
 import { ModalContent } from "./ModalContent";

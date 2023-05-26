@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useNavigate } from "react-router-dom"
 import { useAuth } from './auth';
-import { slugify } from './useApi';
+import { slugify } from './utils/useApi';
 
 function CreatePostPage() {
   const [content, setContent] = React.useState('');
