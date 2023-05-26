@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, useNavigate } from "react-router-dom"
 import { useAuth } from './auth';
+import { slugify } from './useApi';
 
 function CreatePostPage() {
   const [content, setContent] = React.useState('');
@@ -67,21 +68,6 @@ function CreatePostPage() {
       </form>
     </>
   )
-}
-
-function slugify(text) {
-  const normalizedText = text
-    .toString()
-    .toLowerCase()
-    .normalize("NFD") // Normalizar caracteres Unicode
-    .replace(/[\u0300-\u036f]/g, "") // Eliminar diacríticos (vocales con tilde)
-    .replace(/ñ/g, "n"); // Reemplazar "ñ" por "n"
-
-  return normalizedText
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/[^\w-]+/g, "")
-    .replace(/--+/g, "-");
 }
 
 export { CreatePostPage }

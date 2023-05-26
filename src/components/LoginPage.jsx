@@ -18,7 +18,7 @@ function LoginPage() {
         {
           (auth.error) && (
             <>
-              <span>{auth.error}</span>
+              <b style={{ color: 'red' }}>{auth.error}</b>
               <br /><br />
             </>
           )

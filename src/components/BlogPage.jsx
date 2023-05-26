@@ -29,9 +29,10 @@ function BlogPage() {
               <li key={post.postId}>
                 <Link
                   to={`/blog/${post.slug}`}
+                  style={{ color: 'rgb(161, 161, 253)' }}
                 >
                   {post.title}
-                </Link>
+                </Link> / <i style={{ color: 'rgb(161, 161, 253)' }}>@{post.username}</i>
               </li>
             )
           ) : (

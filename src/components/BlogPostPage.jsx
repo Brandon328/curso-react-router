@@ -56,6 +56,7 @@ function BlogPostPage() {
       {
         showModal && createPortal(
           <ModalContent
+            message="Are you sure you want to delete this post?"
             onClose={() => setShowModal(false)}
             onYes={() => deletePost(post.postId)}
           />,
@@ -65,8 +66,16 @@ function BlogPostPage() {
       {
         post ? (
           <>
-            <h1>{post.title}</h1>
-            <i>{post.username}</i>
+            <h2>{post.title}</h2>
+            <i>@{post.username}</i>
+            <b>
+              {
+                (() => {
+                  const date = new Date(post.date);
+                  return ` - ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+                })()
+              }
+            </b>
             <p>{post.content}</p>
             <button
               onClick={returnToBlog}
@@ -78,8 +87,14 @@ function BlogPostPage() {
                 <>
                   <button
                     onClick={() => setShowModal(true)}
-                  >Delete post</button>
-                  <button>Edit post</button>
+                  >
+                    Delete post
+                  </button>
+                  <button
+                    onClick={() => { navigate(`/edit-post/${post.postId}`) }}
+                  >
+                    Edit post
+                  </button>
                 </>
               )
             }
@@ -101,7 +116,7 @@ function BlogPostPage() {
                   <div key={key}>
                     <hr />
                     <p>
-                      <i>@{comment.username}</i>
+                      <i> @{comment.username} </i>
                       <span>
                         {
                           (() => {
