@@ -1,28 +1,25 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 
-function useApi() {
-  const API_URL = 'http://localhost:9000/api'
-  const [posts, setPosts] = React.useState([]);
+function useApi(url, options = {
+  method: 'GET'
+}) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const getPosts = () => {
-    fetchData(`${API_URL}/get-posts`)
-      .then(data => setPosts(data));
-  }
-
-  React.useEffect(() => {
-    getPosts();
+  useEffect(() => {
+    fetch(url, options)
+      .then((response) => response.json())
+      .then((json) => setData(json))
+      .catch((err) => setError(err))
+      .finally(() => setLoading(false));
   }, []);
 
   return {
-    posts,
-    getPosts
-  }
-}
-
-async function fetchData(API_URL) {
-  const response = await fetch(API_URL);
-  const data = await response.json();
-  return data;
+    data,
+    loading,
+    error
+  };
 }
 
 function slugify(text) {
@@ -41,4 +38,4 @@ function slugify(text) {
 }
 
 
-export { useApi, fetchData, slugify }
+export { useApi, slugify }

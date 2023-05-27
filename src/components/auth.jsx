@@ -51,7 +51,6 @@ function AuthProvider({ children }) {
     navigate('/login')
   }
 
-
   const auth = {
     user,
     error,
@@ -75,7 +74,6 @@ function useAuth() {
 AuthRoute.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
 function AuthRoute(props) {
   const auth = useAuth();
   if (!auth.user)

@@ -9,18 +9,20 @@ import { ModalContent } from "./ModalContent";
 import { BlogPageContext } from './BlogPage';
 
 function BlogPostPage() {
-  const { slug } = useParams();
-  const { posts } = useApi();
-  const { setUpdated } = React.useContext(BlogPageContext);
-
   const [error, setError] = React.useState(null);
   const [commentsList, setCommentsList] = React.useState({});
   const [refreshComments, setRefreshComments] = React.useState(false);
   const [showModal, setShowModal] = React.useState(false);
 
+  const { slug } = useParams();
+  const {
+    data: posts
+  } = useApi('http://localhost:9000/api/get-posts');
+  const { setUpdated } = React.useContext(BlogPageContext);
+
   const auth = useAuth();
   const navigate = useNavigate();
-  const post = posts.find(post => post.slug === slug);
+  const post = posts?.find(post => post.slug === slug);
 
   const returnToBlog = () => {
     navigate('/blog');
