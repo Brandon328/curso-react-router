@@ -19,6 +19,10 @@ Corre los siguientes comandos para iniciar la aplicación.
 cd curso-react-router
 npm start
 ```
+Seguidamente se tienen que crear el archivo `.env.local` en la raíz del proyecto dandole valor a las siguientes variables:
+```.env
+VITE_API_URL= --url-del-backend--
+```
 
 
 ## HashRouter
