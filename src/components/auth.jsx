@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import { API_URL } from '../assets/API_URL'
 import { Navigate, useNavigate, useLocation } from "react-router-dom";
 
 
@@ -16,7 +17,7 @@ function AuthProvider({ children }) {
   let location = useLocation();
 
   const login = async (username, password) => {
-    const response = await fetch(`http://localhost:9000/api/login/${username}/${password}`);
+    const response = await fetch(`${API_URL}/login/${username}/${password}`);
     const data = await response.json();
 
     if (data.length > 0) {
@@ -41,7 +42,7 @@ function AuthProvider({ children }) {
       body: JSON.stringify(content)
     }
 
-    const response = await fetch('http://localhost:9000/api/create-user', options);
+    const response = await fetch(`${API_URL}/create-user`, options);
     if (response.status === 200) {
       setError(null);
       navigate('/login');

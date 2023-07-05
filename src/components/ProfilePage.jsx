@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "./auth"
 import { NavLink, Outlet, useParams, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
-
+import { API_URL } from '../assets/API_URL';
 
 function ProfilePage() {
   const auth = useAuth();
@@ -14,12 +14,12 @@ function ProfilePage() {
 
   // Verificar si el username existe o no
   useEffect(() => {
-    fetch(`http://localhost:9000/api/get-user/${username}`)
+    fetch(`${API_URL}/get-user/${username}`)
       .then(response => response.json())
       .then(data => {
         setSearchedUser(data);
         if (data.length > 0)
-          fetch(`http://localhost:9000/api/get-user-posts/${username}`)
+          fetch(`${API_URL}/get-user-posts/${username}`)
             .then(response => response.json())
             .then(data => setPosts(data))
             .catch(error => console.log(error));

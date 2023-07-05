@@ -7,6 +7,7 @@ import { LikePostButton } from "./LIkePostButton";
 import { CommentPostButton } from "./CommentPostButton";
 import { ModalContent } from "./ModalContent";
 import { BlogPageContext } from './BlogPage';
+import { API_URL } from '../assets/API_URL';
 
 function BlogPostPage() {
   const [error, setError] = React.useState(null);
@@ -17,7 +18,7 @@ function BlogPostPage() {
   const { slug } = useParams();
   const {
     data: posts
-  } = useApi('http://localhost:9000/api/get-posts');
+  } = useApi(`${API_URL}/get-posts`);
   const { setUpdated } = React.useContext(BlogPageContext);
 
   const auth = useAuth();
@@ -33,7 +34,7 @@ function BlogPostPage() {
       method: 'DELETE'
     }
 
-    const response = await fetch(`http://localhost:9000/api/delete-post/${postId}`, options);
+    const response = await fetch(`${API_URL}/delete-post/${postId}`, options);
     if (response.status === 200) {
       setError(null);
       setUpdated(true);
@@ -47,7 +48,7 @@ function BlogPostPage() {
 
   React.useEffect(() => {
     if (post) {
-      fetch(`http://localhost:9000/api/get-comments/${post.postId}`)
+      fetch(`${API_URL}/get-comments/${post.postId}`)
         .then(response => response.json())
         .then(data => setCommentsList(data));
     }

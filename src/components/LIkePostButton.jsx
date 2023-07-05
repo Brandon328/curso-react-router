@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useAuth } from "./auth";
+import { API_URL } from '../assets/API_URL';
 
 LikePostButton.propTypes = {
   postId: PropTypes.node.isRequired,
@@ -34,7 +35,7 @@ function LikePostButton({ postId }) {
           }
         )
       }
-      const response = await fetch('http://localhost:9000/api/like-post', options);
+      const response = await fetch(`${API_URL}/like-post`, options);
       if (response.status === 200)
         likePost();
     }
@@ -43,14 +44,14 @@ function LikePostButton({ postId }) {
         method: 'DELETE'
       }
       const response = await fetch(
-        `http://localhost:9000/api/dislike-post/${auth.user.userId}/${postId}`,
+        `${API_URL}/dislike-post/${auth.user.userId}/${postId}`,
         options);
       if (response.status === 200)
         dislikePost();
     }
   }
   React.useEffect(() => {
-    fetch(`http://localhost:9000/api/is-post-liked/${auth.user.userId}/${postId}`)
+    fetch(`${API_URL}/is-post-liked/${auth.user.userId}/${postId}`)
       .then(res => res.json())
       .then(
         res => {

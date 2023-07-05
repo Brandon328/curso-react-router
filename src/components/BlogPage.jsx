@@ -1,5 +1,6 @@
 import { useEffect, useState, createContext } from 'react';
 import { Link, Outlet } from 'react-router-dom'
+import { API_URL } from '../assets/API_URL';
 
 const BlogPageContext = createContext();
 
@@ -9,7 +10,7 @@ function BlogPage() {
 
   useEffect(() => {
     if (updated) {
-      fetch('http://localhost:9000/api/get-posts')
+      fetch(`${API_URL}/get-posts`)
         .then(response => response.json())
         .then(data => setPosts(data))
         .catch(error => console.log(error))

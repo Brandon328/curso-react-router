@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Navigate, Link } from 'react-router-dom';
 import { useAuth } from './auth';
-
+import { API_URL } from '../assets/API_URL';
 
 function HomePage() {
   const { user } = useAuth();
@@ -12,13 +12,13 @@ function HomePage() {
   const search = async e => {
     e.preventDefault();
 
-    const response = await fetch(`http://localhost:9000/api/get-user/${authorUsername}`);
+    const response = await fetch(`${API_URL}/get-user/${authorUsername}`);
     const data = await response.json();
 
     setSearchedUser(data);
 
     if (data.length > 0) {
-      const response = await fetch(`http://localhost:9000/api/get-user-posts/${authorUsername}`);
+      const response = await fetch(`${API_URL}/get-user-posts/${authorUsername}`);
       const data = await response.json();
       setPosts(data);
     }

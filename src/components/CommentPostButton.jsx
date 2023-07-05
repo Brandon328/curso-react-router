@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { useAuth } from './auth';
+import { API_URL } from '../assets/API_URL';
 
 CommentPostButton.propTypes = {
   postId: PropTypes.node.isRequired,
@@ -28,7 +29,7 @@ function CommentPostButton({ postId, setRefreshComments, refreshComments }) {
       body: JSON.stringify(content)
     }
 
-    const response = await fetch('http://localhost:9000/api/comment-post', options);
+    const response = await fetch(`${API_URL}/comment-post`, options);
     if (response.status === 200) {
       setError(null);
       setComment('');

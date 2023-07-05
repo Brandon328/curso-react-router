@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink, useNavigate, useParams, Navigate } from "react-router-dom"
 import { useAuth } from './auth';
 import { slugify } from './utils/useApi';
+import { API_URL } from '../assets/API_URL';
 
 function CreatePostPage() {
   const { username } = useParams();
@@ -30,7 +31,7 @@ function CreatePostPage() {
       body: JSON.stringify(data)
     }
 
-    const response = await fetch('http://localhost:9000/api/create-post', options);
+    const response = await fetch(`${API_URL}/create-post`, options);
     if (response.status === 200) {
       setContent('');
       setTitle('');

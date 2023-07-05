@@ -4,6 +4,7 @@ import { useAuth } from "./auth";
 import { useParams, useNavigate } from "react-router-dom";
 import { ModalContent } from './ModalContent';
 import { slugify } from './utils/useApi';
+import { API_URL } from '../assets/API_URL';
 
 function EditPostPage() {
   const auth = useAuth();
@@ -33,7 +34,7 @@ function EditPostPage() {
       body: JSON.stringify(data)
     }
 
-    const response = await fetch(`http://localhost:9000/api/update-post/${postId}`, options);
+    const response = await fetch(`${API_URL}/update-post/${postId}`, options);
     if (response.status === 200) {
       setError(null);
       navigate(`/blog/${slug}`);
@@ -48,7 +49,7 @@ function EditPostPage() {
   React.useEffect(() => {
     setLoading(true);
 
-    fetch(`http://localhost:9000/api/get-post/${postId}/${auth.user.userId}`)
+    fetch(`${API_URL}/get-post/${postId}/${auth.user.userId}`)
       .then(response => response.json())
       .then(data => {
         setLoading(false);
