@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
 
 
 const AuthContext = React.createContext();
@@ -13,16 +13,18 @@ function AuthProvider({ children }) {
   const [user, setUser] = React.useState(null);
   const [error, setError] = React.useState(null);
   const navigate = useNavigate();
+  let location = useLocation();
 
   const login = async (username, password) => {
     const response = await fetch(`http://localhost:9000/api/login/${username}/${password}`);
     const data = await response.json();
 
     if (data.length > 0) {
-      // {userId, username, firstname, lastname}
+      let from = location.state?.from?.pathname || -1;
       setError(null);
+      // {userId, username, firstname, lastname}
       setUser({ ...data[0] });
-      navigate('/profile');
+      navigate(from, { replace: true });
     }
     else {
       setError('Username or password wrong');
@@ -76,8 +78,10 @@ AuthRoute.propTypes = {
 };
 function AuthRoute(props) {
   const auth = useAuth();
+  let location = useLocation();
+
   if (!auth.user)
-    return <Navigate to="/login" />
+    return <Navigate to="/login" state={{ from: location }} replace />
 
   return (
     <>

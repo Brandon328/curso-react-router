@@ -3,6 +3,38 @@ import { useAuth } from "./auth"
 
 function Menu() {
   const auth = useAuth();
+  const routes = [
+    {
+      to: '/',
+      text: 'home',
+      private: false
+    },
+    {
+      to: '/blog',
+      text: 'blog',
+      private: false
+    },
+    {
+      to: `/profile/${auth.user?.username.toLowerCase()}`,
+      text: 'profile',
+      private: true
+    },
+    {
+      to: '/login',
+      text: 'login',
+      private: false
+    },
+    {
+      to: '/logout',
+      text: 'logout',
+      private: true
+    },
+    {
+      to: '/register',
+      text: 'register',
+      private: false
+    }
+  ]
 
   return (
     <nav>
@@ -31,38 +63,5 @@ function Menu() {
     </nav>
   )
 }
-
-const routes = [
-  {
-    to: '/',
-    text: 'home',
-    private: false
-  },
-  {
-    to: '/blog',
-    text: 'blog',
-    private: false
-  },
-  {
-    to: '/profile',
-    text: 'profile',
-    private: true
-  },
-  {
-    to: '/login',
-    text: 'login',
-    private: false
-  },
-  {
-    to: '/logout',
-    text: 'logout',
-    private: true
-  },
-  {
-    to: '/register',
-    text: 'register',
-    private: false
-  }
-]
 
 export { Menu }

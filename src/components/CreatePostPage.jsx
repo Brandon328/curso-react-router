@@ -1,14 +1,17 @@
 import React from 'react';
-import { NavLink, useNavigate } from "react-router-dom"
+import { NavLink, useNavigate, useParams, Navigate } from "react-router-dom"
 import { useAuth } from './auth';
 import { slugify } from './utils/useApi';
 
 function CreatePostPage() {
+  const { username } = useParams();
+  const auth = useAuth();
   const [content, setContent] = React.useState('');
   const [title, setTitle] = React.useState('');
-
-  const auth = useAuth();
   const navigate = useNavigate();
+
+  if (username != auth.user.username)
+    return <Navigate to={`/profile/${username}`} />
 
   const createPost = async e => {
     e.preventDefault();

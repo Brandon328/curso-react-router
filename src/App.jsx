@@ -28,7 +28,7 @@ function App() {
             </AuthRoute>
           } />
           <Route
-            path="/profile"
+            path="/profile/:username"
             element={
               <AuthRoute>
                 <ProfilePage />
