@@ -6,11 +6,20 @@
 
 - [Curso de React Router DOM](#curso-de-react-router-dom)
   - [Tabla de contenido](#tabla-de-contenido)
+  - [Usage](#usage)
   - [HashRouter](#hashrouter)
     - [Implementación](#implementación)
   - [useParams](#useparams)
   - [useNavigate](#usenavigate)
   - [BrowserRouter](#browserrouter)
+
+## Usage
+Corre los siguientes comandos para iniciar la aplicación.
+```bash
+cd curso-react-router
+npm start
+```
+
 
 ## HashRouter
 
