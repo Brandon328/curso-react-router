@@ -12,20 +12,16 @@ function ProfilePage() {
   const [posts, setPosts] = useState({});
   const currUsername = auth.user?.username;
 
-
   // Verificar si el username existe o no
   useEffect(() => {
     fetch(`http://localhost:9000/api/get-user/${username}`)
       .then(response => response.json())
       .then(data => {
         setSearchedUser(data);
-        if (searchedUser?.length > 0)
+        if (data.length > 0)
           fetch(`http://localhost:9000/api/get-user-posts/${username}`)
             .then(response => response.json())
-            .then(data => {
-              console.log(data);
-              setPosts(data);
-            })
+            .then(data => setPosts(data))
             .catch(error => console.log(error));
       })
       .catch(error => console.log(error));
@@ -60,33 +56,35 @@ function ProfilePage() {
                           </button>
                         )
                       }
+
+                      <h3>Your posts</h3>
                       <Outlet />
                     </>
                     :
                     <>
                       <h1>@{username}</h1>
-                      {
-                        posts.length > 0 ?
-                          <>
-                            <ul>
-                              {
-                                posts.map(post =>
-                                  <li key={post.postId}>
-                                    <Link
-                                      to={`/blog/${post.slug}`}
-                                      style={{ color: 'rgb(161, 161, 253)' }}
-                                    >
-                                      {post.title}
-                                    </Link>
-                                  </li>
-                                )
-                              }
-                            </ul>
-                          </>
-                          :
-                          <p>No recent posts</p>
-                      }
                     </>
+                }
+                {
+                  posts.length > 0 ?
+                    <>
+                      <ul>
+                        {
+                          posts.map(post =>
+                            <li key={post.postId}>
+                              <Link
+                                to={`/blog/${post.slug}`}
+                                style={{ color: 'rgb(161, 161, 253)' }}
+                              >
+                                {post.title}
+                              </Link>
+                            </li>
+                          )
+                        }
+                      </ul>
+                    </>
+                    :
+                    <p>No recent posts</p>
                 }
               </>
               :

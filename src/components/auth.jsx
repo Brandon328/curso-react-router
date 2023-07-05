@@ -21,9 +21,11 @@ function AuthProvider({ children }) {
 
     if (data.length > 0) {
       let from = location.state?.from?.pathname || -1;
+      const user = { ...data[0] };
       setError(null);
       // {userId, username, firstname, lastname}
-      setUser({ ...data[0] });
+      setUser(user);
+      localStorage.setItem('user', JSON.stringify(user))
       navigate(from, { replace: true });
     }
     else {
@@ -50,12 +52,15 @@ function AuthProvider({ children }) {
   }
   const logout = () => {
     setUser(null);
-    navigate('/login')
+    localStorage.setItem('user', '');
+    navigate('/login');
+
   }
 
   const auth = {
     user,
     error,
+    setUser,
     login,
     logout,
     register
@@ -70,6 +75,12 @@ function AuthProvider({ children }) {
 
 function useAuth() {
   const auth = React.useContext(AuthContext);
+  const user = localStorage.getItem('user');
+
+  if (user) {
+    auth.user = JSON.parse(user);
+  }
+
   return auth;
 }
 
