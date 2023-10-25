@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import { API_URL } from '../assets/API_URL'
 import { Navigate, useNavigate, useLocation } from "react-router-dom";
+import { parseJwt } from "./utils/useApi"
 
 
 const AuthContext = React.createContext();
@@ -11,10 +12,11 @@ AuthProvider.propTypes = {
 };
 
 function AuthProvider({ children }) {
+  const [token, setToken] = React.useState(null);
   const [user, setUser] = React.useState(null);
   const [error, setError] = React.useState(null);
   const navigate = useNavigate();
-  let location = useLocation();
+  // let location = useLocation();
 
   const login = async (username, password) => {
     const response = await fetch(`${API_URL}/login/${username}/${password}`);
@@ -22,15 +24,16 @@ function AuthProvider({ children }) {
 
     if (data.length > 0) {
       let from = location.state?.from?.pathname || -1;
-      const user = { ...data[0] };
-      setError(null);
+      localStorage.setItem('token', data)
+      setToken(data);
+      setUser(parseJwt(data))
       // {userId, username, firstname, lastname}
-      setUser(user);
-      localStorage.setItem('user', JSON.stringify(user))
+      setError(null);
       navigate(from, { replace: true });
     }
     else {
-      setError('Username or password wrong');
+      // setError('Username or password wrong');
+      console.log('Username or password wrong')
     }
   }
   const register = async (content) => {
@@ -52,16 +55,16 @@ function AuthProvider({ children }) {
     }
   }
   const logout = () => {
-    setUser(null);
-    localStorage.setItem('user', '');
+    setToken(null);
+    localStorage.setItem('token', '');
     navigate('/login');
-
   }
 
   const auth = {
+    token,
     user,
     error,
-    setUser,
+    setToken,
     login,
     logout,
     register
@@ -76,10 +79,11 @@ function AuthProvider({ children }) {
 
 function useAuth() {
   const auth = React.useContext(AuthContext);
-  const user = localStorage.getItem('user');
+  const token = localStorage.getItem('token');
 
-  if (user) {
-    auth.user = JSON.parse(user);
+  if (token) {
+    auth.token = token;
+    auth.user = parseJwt(token);
   }
 
   return auth;
@@ -92,7 +96,8 @@ function AuthRoute(props) {
   const auth = useAuth();
   let location = useLocation();
 
-  if (!auth.user)
+  // valida si existe el token o si ya expiro
+  if (!auth.token || auth.user?.exp * 1000 < Date.now())
     return <Navigate to="/login" state={{ from: location }} replace />
 
   return (
@@ -107,8 +112,8 @@ NoAuthRoute.propTypes = {
 };
 function NoAuthRoute(props) {
   const auth = useAuth();
-  if (auth.user)
-    return <Navigate to="/profile" />
+  if (auth.token && auth.user?.exp * 1000 > Date.now())
+    return <Navigate to={`/profile/${auth.user.username}`} />
 
   return (
     <>
